@@ -29,4 +29,10 @@ public class Schedule {
 
     @LastModifiedDate
     private LocalDateTime updateAt;
+
+    public Schedule(String name, String title, String content){
+        this.name = name;
+        this.title = title;
+        this.content = content;
+    }
 }
