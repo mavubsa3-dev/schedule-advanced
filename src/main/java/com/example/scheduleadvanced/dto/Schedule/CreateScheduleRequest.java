@@ -9,6 +9,5 @@ public class CreateScheduleRequest {
     private String name;
     private String title;
     private String content;
-    private LocalDateTime creativeAt;
-    private LocalDateTime updateAt;
+
 }

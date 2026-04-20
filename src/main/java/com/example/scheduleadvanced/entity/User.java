@@ -1,10 +1,9 @@
 package com.example.scheduleadvanced.entity;
 
-
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -13,34 +12,25 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
-@Table(name = "schedules")
+@Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Schedule {
-
+@NoArgsConstructor
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String title;
-    private String content;
+    private String email;
 
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime creativeAt;
+    private LocalDateTime createAt;
 
     @LastModifiedDate
     private LocalDateTime updateAt;
 
-    public Schedule(String name, String title, String content){
+    public User(String name, String email){
         this.name = name;
-        this.title = title;
-        this.content = content;
-    }
-
-    public void update(String name, String title, String content){
-        this.name = name;
-        this.title = title;
-        this.content = content;
+        this.email = email;
     }
 }
