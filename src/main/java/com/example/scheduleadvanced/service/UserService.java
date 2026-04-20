@@ -65,4 +65,12 @@ public class UserService {
                 user.getCreateAt(),
                 user.getUpdateAt());
     }
+
+    @Transactional
+    public void delete(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new IllegalStateException("존재하지 않는 유저입니다.")
+        );
+        userRepository.delete(user);
+    }
 }
