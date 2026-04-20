@@ -21,7 +21,7 @@ public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    //private String name;
     private String title;
     private String content;
 
@@ -31,6 +31,10 @@ public class Schedule {
 
     @LastModifiedDate
     private LocalDateTime updateAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Schedule(String name, String title, String content){
         this.name = name;
