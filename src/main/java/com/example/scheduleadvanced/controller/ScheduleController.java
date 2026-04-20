@@ -30,4 +30,6 @@ public class ScheduleController {
     public ResponseEntity<GetScheduleResponse> getOne(@PathVariable Long scheduleId){
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getOne(scheduleId));
     }
+
+    @PutMapping("/scheudles/{scheduleId}")
 }
