@@ -17,7 +17,7 @@ public class UserService {
 
     @Transactional
     public CreateUserResponse save(CreateUserRequest request) {
-        User user = new User(request.getName(), request.getEmail());
+        User user = new User(request.getPassword(), request.getName(), request.getEmail());
         User savedUser = userRepository.save(user);
         return new CreateUserResponse(
                 savedUser.getName(),

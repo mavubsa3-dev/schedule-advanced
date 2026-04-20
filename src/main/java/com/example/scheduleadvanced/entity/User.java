@@ -19,6 +19,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String password;
     private String name;
     private String email;
 
@@ -29,7 +30,8 @@ public class User {
     @LastModifiedDate
     private LocalDateTime updateAt;
 
-    public User(String name, String email){
+    public User(String password, String name, String email){
+        this.password = password;
         this.name = name;
         this.email = email;
     }

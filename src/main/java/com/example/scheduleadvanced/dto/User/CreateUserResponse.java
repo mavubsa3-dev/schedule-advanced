@@ -11,7 +11,7 @@ public class CreateUserResponse {
     private final LocalDateTime createAt;
     private final LocalDateTime updateAt;
 
-    public CreateUserResponse(String name, String email, LocalDateTime createAt, LocalDateTime updateAt) {
+    public CreateUserResponse(String name,  String email, LocalDateTime createAt, LocalDateTime updateAt) {
         this.name = name;
         this.email = email;
         this.createAt = createAt;
