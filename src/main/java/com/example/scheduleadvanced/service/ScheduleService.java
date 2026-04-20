@@ -47,4 +47,17 @@ public class ScheduleService {
         }
         return dtos;
     }
+
+    @Transactional
+    public GetScheduleResponse getOne(Long scheduleId){
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                () -> new IllegalStateException("존재하지 않는 일정입니다.")
+        );
+        return new GetScheduleResponse(
+                schedule.getName(),
+                schedule.getTitle(),
+                schedule.getContent(),
+                schedule.getCreativeAt(),
+                schedule.getUpdateAt());
+    }
 }
