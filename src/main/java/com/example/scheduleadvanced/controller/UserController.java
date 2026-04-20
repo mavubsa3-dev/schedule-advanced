@@ -32,4 +32,7 @@ public class UserController {
     public ResponseEntity<GetUserResponse> getOne(@PathVariable Long userId){
         return ResponseEntity.status(HttpStatus.OK).body(userService.getOne(userId));
     }
+
+    @PutMapping("/users/{userId}")
+
 }
