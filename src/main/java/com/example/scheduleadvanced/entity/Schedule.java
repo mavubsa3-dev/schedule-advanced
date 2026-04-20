@@ -36,14 +36,13 @@ public class Schedule {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Schedule(String name, String title, String content){
-        this.name = name;
+    public Schedule(User user, String title, String content){
+        this.user = user;
         this.title = title;
         this.content = content;
     }
 
-    public void update(String name, String title, String content){
-        this.name = name;
+    public void update(String title, String content){
         this.title = title;
         this.content = content;
     }

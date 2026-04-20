@@ -2,7 +2,9 @@ package com.example.scheduleadvanced.service;
 
 import com.example.scheduleadvanced.dto.Schedule.*;
 import com.example.scheduleadvanced.entity.Schedule;
+import com.example.scheduleadvanced.entity.User;
 import com.example.scheduleadvanced.repository.ScheduleRepository;
+import com.example.scheduleadvanced.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,16 +16,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public CreateScheduleResponse save(CreateScheduleRequest request) {
+        User user = userRepository.findById(request.getUserId()).orElseThrow(
+                () -> new IllegalStateException("존재하지 않는 유저입니다.")
+        );
         Schedule schedule = new Schedule(
-                request.getName(),
+                user,
                 request.getTitle(),
                 request.getContent());
         Schedule savedSchedule = scheduleRepository.save(schedule);
         return new CreateScheduleResponse(
-                savedSchedule.getName(),
+                user.getId(),
                 savedSchedule.getTitle(),
                 savedSchedule.getContent(),
                 savedSchedule.getCreativeAt(),
@@ -36,7 +42,7 @@ public class ScheduleService {
         List<GetScheduleResponse> dtos = new ArrayList<>();
         for(Schedule schedule : schedules){
             GetScheduleResponse dto = new GetScheduleResponse(
-                    schedule.getName(),
+                    schedule.getUser().getId(),
                     schedule.getTitle(),
                     schedule.getContent(),
                     schedule.getCreativeAt(),
@@ -52,7 +58,7 @@ public class ScheduleService {
                 () -> new IllegalStateException("존재하지 않는 일정입니다.")
         );
         return new GetScheduleResponse(
-                schedule.getName(),
+                schedule.getUser().getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
                 schedule.getCreativeAt(),
@@ -64,9 +70,9 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 () -> new IllegalStateException("존재하지 않는 일정입니다.")
         );
-        schedule.update(request.getName(), request.getTitle(), request.getContent());
+        schedule.update(request.getTitle(), request.getContent());
         return new UpdateScheduleResponse(
-                schedule.getName(),
+                schedule.getUser().getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
                 schedule.getCreativeAt(),
