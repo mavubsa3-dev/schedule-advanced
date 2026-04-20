@@ -1,9 +1,7 @@
 package com.example.scheduleadvanced.controller;
 
 import com.example.scheduleadvanced.dto.Schedule.UpdateScheduleRequest;
-import com.example.scheduleadvanced.dto.User.CreateUserRequest;
-import com.example.scheduleadvanced.dto.User.CreateUserResponse;
-import com.example.scheduleadvanced.dto.User.GetUserResponse;
+import com.example.scheduleadvanced.dto.User.*;
 import com.example.scheduleadvanced.entity.User;
 import com.example.scheduleadvanced.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +32,8 @@ public class UserController {
     }
 
     @PutMapping("/users/{userId}")
+    public ResponseEntity<UpdateUserResponse> updateUser(@PathVariable Long userId, @RequestBody UpdateUserRequest request){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.update(userId, request));
+    }
 
 }
