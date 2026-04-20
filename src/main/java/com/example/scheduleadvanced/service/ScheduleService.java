@@ -2,11 +2,15 @@ package com.example.scheduleadvanced.service;
 
 import com.example.scheduleadvanced.dto.Schedule.CreateScheduleRequest;
 import com.example.scheduleadvanced.dto.Schedule.CreateScheduleResponse;
+import com.example.scheduleadvanced.dto.Schedule.GetScheduleResponse;
 import com.example.scheduleadvanced.entity.Schedule;
 import com.example.scheduleadvanced.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +30,21 @@ public class ScheduleService {
                 savedSchedule.getContent(),
                 savedSchedule.getCreativeAt(),
                 savedSchedule.getUpdateAt());
+    }
+
+    @Transactional
+    public List<GetScheduleResponse> getAll() {
+        List<Schedule> schedules = scheduleRepository.findAll();
+        List<GetScheduleResponse> dtos = new ArrayList<>();
+        for(Schedule schedule : schedules){
+            GetScheduleResponse dto = new GetScheduleResponse(
+                    schedule.getName(),
+                    schedule.getTitle(),
+                    schedule.getContent(),
+                    schedule.getCreativeAt(),
+                    schedule.getUpdateAt());
+            dtos.add(dto);
+        }
+        return dtos;
     }
 }
