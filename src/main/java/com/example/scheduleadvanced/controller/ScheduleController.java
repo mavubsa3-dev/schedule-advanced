@@ -1,8 +1,6 @@
 package com.example.scheduleadvanced.controller;
 
-import com.example.scheduleadvanced.dto.Schedule.CreateScheduleRequest;
-import com.example.scheduleadvanced.dto.Schedule.CreateScheduleResponse;
-import com.example.scheduleadvanced.dto.Schedule.GetScheduleResponse;
+import com.example.scheduleadvanced.dto.Schedule.*;
 import com.example.scheduleadvanced.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,4 +30,7 @@ public class ScheduleController {
     }
 
     @PutMapping("/scheudles/{scheduleId}")
+    public ResponseEntity<UpdateScheduleResponse> updateSchedule(@PathVariable Long scheduleId, @RequestBody UpdateScheduleRequest request){
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.update(scheduleId, request));
+    }
 }
