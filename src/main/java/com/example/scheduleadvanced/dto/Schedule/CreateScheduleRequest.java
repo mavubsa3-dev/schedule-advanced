@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 
 @Getter
 public class CreateScheduleRequest {
-    private Long userId;
     private String title;
     private String content;
 

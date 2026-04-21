@@ -20,7 +20,7 @@ public class ScheduleController {
     @PostMapping("/schedules")
     public ResponseEntity<CreateScheduleResponse> save(@RequestBody CreateScheduleRequest request, HttpSession session){
         LoginAuthorizationUtil.isLoginUser(session);
-        return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.save(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.save(request, session));
 
     }
 

@@ -27,7 +27,7 @@ public class UserController {
         try{
             User user = userService.login(request);
 
-            SessionUser sessionUser = new SessionUser(user.getEmail(), user.getName());
+            SessionUser sessionUser = new SessionUser(user.getId());
             session.setAttribute("loginUser", sessionUser);
 
             return ResponseEntity.status(HttpStatus.OK).body("로그인 성공!");
