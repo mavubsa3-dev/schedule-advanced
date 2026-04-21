@@ -4,6 +4,7 @@ import com.example.scheduleadvanced.dto.Schedule.UpdateScheduleRequest;
 import com.example.scheduleadvanced.dto.User.*;
 import com.example.scheduleadvanced.entity.User;
 import com.example.scheduleadvanced.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,20 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<CreateUserResponse> save(@RequestBody CreateUserRequest request){
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(request));
+    }
+
+    @PostMapping("/users/login")
+    public ResponseEntity<String> login(@RequestBody UserLoginRequest request, HttpSession session){
+        try{
+            User user = userService.login(request);
+
+            SessionUser sessionUser = new SessionUser(user.getEmail(), user.getName());
+            session.setAttribute("loginUser", sessionUser);
+
+            return ResponseEntity.status(HttpStatus.OK).body("로그인 성공!");
+        }catch (IllegalStateException e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("이메일이나 비밀번호가 옳지 않습니다.");
+        }
     }
 
     @GetMapping("/users")
