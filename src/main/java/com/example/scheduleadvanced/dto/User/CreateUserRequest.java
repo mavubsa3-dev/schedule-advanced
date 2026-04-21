@@ -11,7 +11,7 @@ public class CreateUserRequest {
     private String name;
 
     @NotBlank(message = "비밀번호를 입력하세요")
-    @Size(min = 4, max = 20)
+    @Size(min = 8, max = 20)
     private String password;
 
     @NotBlank(message = "이메일을 입력하세요")
