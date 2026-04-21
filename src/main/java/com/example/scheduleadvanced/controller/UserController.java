@@ -36,6 +36,16 @@ public class UserController {
         }
     }
 
+    @PostMapping("/users/logout")
+    public ResponseEntity<String> logout(@SessionAttribute(name = "loginUser", required = false) SessionUser sessionUser, HttpSession session){
+        if(sessionUser == null){
+            return ResponseEntity.badRequest().body("로그인을 먼저 하세요");
+        }
+
+        session.invalidate();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("로그아웃 되었습니다.");
+    }
+
     @GetMapping("/users")
     public ResponseEntity<List<GetUserResponse>> AllUser(){
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAll());

@@ -11,11 +11,10 @@ public class LoginAuthorizationUtil {
         throw new IllegalStateException("Utility Class");
     }
 
-    public static SessionUser isLoginUser(HttpSession session){
+    public static void isLoginUser(HttpSession session){
         SessionUser loginUser = (SessionUser) session.getAttribute("loginUser");
         if(loginUser == null){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다.");
         }
-        return loginUser;
     }
 }

@@ -19,29 +19,32 @@ public class ScheduleController {
 
     @PostMapping("/schedules")
     public ResponseEntity<CreateScheduleResponse> save(@RequestBody CreateScheduleRequest request, HttpSession session){
-        SessionUser loginUser = LoginAuthorizationUtil.isLoginUser(session);
-        if(loginUser != null){
-            return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.save(request));
-        }
+        LoginAuthorizationUtil.isLoginUser(session);
+        return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.save(request));
+
     }
 
     @GetMapping("/schedules")
-    public ResponseEntity<List<GetScheduleResponse>> getAll(){
+    public ResponseEntity<List<GetScheduleResponse>> getAll(HttpSession session){
+        LoginAuthorizationUtil.isLoginUser(session);
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getAll());
     }
 
     @GetMapping("/schedules/{scheduleId}")
-    public ResponseEntity<GetScheduleResponse> getOne(@PathVariable Long scheduleId){
+    public ResponseEntity<GetScheduleResponse> getOne(@PathVariable Long scheduleId, HttpSession session){
+        LoginAuthorizationUtil.isLoginUser(session);
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getOne(scheduleId));
     }
 
     @PutMapping("/schedules/{scheduleId}")
-    public ResponseEntity<UpdateScheduleResponse> updateSchedule(@PathVariable Long scheduleId, @RequestBody UpdateScheduleRequest request){
+    public ResponseEntity<UpdateScheduleResponse> updateSchedule(@PathVariable Long scheduleId, @RequestBody UpdateScheduleRequest request, HttpSession session){
+        LoginAuthorizationUtil.isLoginUser(session);
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.update(scheduleId, request));
     }
 
     @DeleteMapping("/schedules/{scheduleId}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable Long scheduleId){
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long scheduleId, HttpSession session){
+        LoginAuthorizationUtil.isLoginUser(session);
         scheduleService.delete(scheduleId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
