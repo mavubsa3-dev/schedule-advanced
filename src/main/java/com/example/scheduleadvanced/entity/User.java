@@ -1,6 +1,7 @@
 package com.example.scheduleadvanced.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.cglib.core.Local;
@@ -20,7 +21,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String password;
+
     private String name;
+
     private String email;
 
     @CreatedDate
