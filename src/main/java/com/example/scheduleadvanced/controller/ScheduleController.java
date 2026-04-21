@@ -3,6 +3,7 @@ package com.example.scheduleadvanced.controller;
 import com.example.scheduleadvanced.dto.Schedule.*;
 import com.example.scheduleadvanced.dto.User.SessionUser;
 import com.example.scheduleadvanced.service.ScheduleService;
+import com.example.scheduleadvanced.util.LoginAuthorizationUtil;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,10 @@ public class ScheduleController {
 
     @PostMapping("/schedules")
     public ResponseEntity<CreateScheduleResponse> save(@RequestBody CreateScheduleRequest request, HttpSession session){
-        SessionUser loginUser = (SessionUser) session.getAttribute("loginUser");
-        return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.save(request));
+        SessionUser loginUser = LoginAuthorizationUtil.isLoginUser(session);
+        if(loginUser != null){
+            return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.save(request));
+        }
     }
 
     @GetMapping("/schedules")
