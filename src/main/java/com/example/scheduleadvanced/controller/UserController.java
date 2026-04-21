@@ -5,6 +5,7 @@ import com.example.scheduleadvanced.dto.User.*;
 import com.example.scheduleadvanced.entity.User;
 import com.example.scheduleadvanced.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users")
-    public ResponseEntity<CreateUserResponse> save(@RequestBody CreateUserRequest request){
+    public ResponseEntity<CreateUserResponse> save(@Valid @RequestBody CreateUserRequest request){
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(request));
     }
 
     @PostMapping("/users/login")
-    public ResponseEntity<String> login(@RequestBody UserLoginRequest request, HttpSession session){
+    public ResponseEntity<String> login(@Valid @RequestBody UserLoginRequest request, HttpSession session){
         try{
             User user = userService.login(request);
 
@@ -57,7 +58,7 @@ public class UserController {
     }
 
     @PutMapping("/users/{userId}")
-    public ResponseEntity<UpdateUserResponse> updateUser(@PathVariable Long userId, @RequestBody UpdateUserRequest request){
+    public ResponseEntity<UpdateUserResponse> updateUser(@PathVariable Long userId,@Valid @RequestBody UpdateUserRequest request){
         return ResponseEntity.status(HttpStatus.OK).body(userService.update(userId, request));
     }
 

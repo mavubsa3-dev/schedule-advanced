@@ -5,6 +5,7 @@ import com.example.scheduleadvanced.dto.User.SessionUser;
 import com.example.scheduleadvanced.service.ScheduleService;
 import com.example.scheduleadvanced.util.LoginAuthorizationUtil;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping("/schedules")
-    public ResponseEntity<CreateScheduleResponse> save(@RequestBody CreateScheduleRequest request, HttpSession session){
+    public ResponseEntity<CreateScheduleResponse> save(@Valid @RequestBody CreateScheduleRequest request, HttpSession session){
         LoginAuthorizationUtil.isLoginUser(session);
         return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.save(request, session));
 
@@ -37,7 +38,7 @@ public class ScheduleController {
     }
 
     @PutMapping("/schedules/{scheduleId}")
-    public ResponseEntity<UpdateScheduleResponse> updateSchedule(@PathVariable Long scheduleId, @RequestBody UpdateScheduleRequest request, HttpSession session){
+    public ResponseEntity<UpdateScheduleResponse> updateSchedule(@PathVariable Long scheduleId,@Valid @RequestBody UpdateScheduleRequest request, HttpSession session){
         LoginAuthorizationUtil.isLoginUser(session);
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.update(scheduleId, request));
     }
