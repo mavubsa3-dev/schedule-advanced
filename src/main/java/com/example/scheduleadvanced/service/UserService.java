@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,10 +30,10 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public User login(UserLoginRequest request){
-        User user = userRepository.findByEmail(request.getEmail());
-        if(user == null){
-            throw new IllegalStateException("일치하는 이메일이 없습니다.");
-        }
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
+                () ->  new IllegalStateException("일치하는 이메일이 없습니다.")
+        );
+
         if(!request.getPassword().equals(user.getPassword())){
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
