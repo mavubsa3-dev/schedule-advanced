@@ -4,6 +4,7 @@ import com.example.scheduleadvanced.dto.Schedule.*;
 import com.example.scheduleadvanced.dto.User.SessionUser;
 import com.example.scheduleadvanced.entity.Schedule;
 import com.example.scheduleadvanced.entity.User;
+import com.example.scheduleadvanced.handler.ScheduleNotFoundException;
 import com.example.scheduleadvanced.repository.ScheduleRepository;
 import com.example.scheduleadvanced.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
@@ -24,7 +25,7 @@ public class ScheduleService {
     public CreateScheduleResponse save(CreateScheduleRequest request, HttpSession session) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("loginUser");
         User user = userRepository.findById(sessionUser.getUserId()).orElseThrow(
-                () -> new IllegalStateException("존재하지 않는 유저입니다.")
+                () -> new ScheduleNotFoundException("존재하지 않는 유저입니다.")
         );
         Schedule schedule = new Schedule(
                 user,
@@ -58,7 +59,7 @@ public class ScheduleService {
     @Transactional
     public GetScheduleResponse getOne(Long scheduleId){
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new IllegalStateException("존재하지 않는 일정입니다.")
+                () -> new ScheduleNotFoundException("존재하지 않는 일정입니다.")
         );
         return new GetScheduleResponse(
                 schedule.getUser().getId(),
@@ -71,7 +72,7 @@ public class ScheduleService {
     @Transactional
     public UpdateScheduleResponse update(Long scheduleId, UpdateScheduleRequest request){
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new IllegalStateException("존재하지 않는 일정입니다.")
+                () -> new ScheduleNotFoundException("존재하지 않는 일정입니다.")
         );
         schedule.update(request.getTitle(), request.getContent());
         return new UpdateScheduleResponse(
@@ -85,7 +86,7 @@ public class ScheduleService {
     @Transactional
     public void delete(Long scheduleId){
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new IllegalStateException("존재하지 않는 일정입니다.")
+                () -> new ScheduleNotFoundException("존재하지 않는 일정입니다.")
         );
         scheduleRepository.delete(schedule);
     }

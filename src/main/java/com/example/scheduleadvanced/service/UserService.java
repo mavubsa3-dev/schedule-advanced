@@ -2,6 +2,7 @@ package com.example.scheduleadvanced.service;
 
 import com.example.scheduleadvanced.dto.User.*;
 import com.example.scheduleadvanced.entity.User;
+import com.example.scheduleadvanced.handler.UserNotFoundExcpetion;
 import com.example.scheduleadvanced.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -56,7 +57,7 @@ public class UserService {
     @Transactional
     public GetUserResponse getOne(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(
-                () -> new IllegalStateException("존재하지 않는 유저입니다.")
+                () -> new UserNotFoundExcpetion("존재하지 않는 유저입니다.")
         );
         return new GetUserResponse(
                 user.getName(),
@@ -68,7 +69,7 @@ public class UserService {
     @Transactional
     public UpdateUserResponse update(Long userId, UpdateUserRequest request) {
         User user = userRepository.findById(userId).orElseThrow(
-                () -> new IllegalStateException("존재하지 않는 유저입니다.")
+                () -> new UserNotFoundExcpetion("존재하지 않는 유저입니다.")
         );
         user.update(request.getName(), request.getEmail());
 
@@ -82,7 +83,7 @@ public class UserService {
     @Transactional
     public void delete(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(
-                () -> new IllegalStateException("존재하지 않는 유저입니다.")
+                () -> new UserNotFoundExcpetion("존재하지 않는 유저입니다.")
         );
         userRepository.delete(user);
     }
