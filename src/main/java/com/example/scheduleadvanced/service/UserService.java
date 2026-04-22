@@ -1,5 +1,6 @@
 package com.example.scheduleadvanced.service;
 
+import com.example.scheduleadvanced.config.PasswordEncoder;
 import com.example.scheduleadvanced.dto.User.*;
 import com.example.scheduleadvanced.entity.User;
 import com.example.scheduleadvanced.handler.UserNotFoundExcpetion;
@@ -16,10 +17,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public CreateUserResponse save(CreateUserRequest request) {
-        User user = new User(request.getPassword(), request.getName(), request.getEmail());
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+        User user = new User(encodedPassword, request.getName(), request.getEmail());
         User savedUser = userRepository.save(user);
         return new CreateUserResponse(
                 savedUser.getName(),
@@ -34,7 +37,7 @@ public class UserService {
                 () ->  new IllegalStateException("일치하는 이메일이 없습니다.")
         );
 
-        if(!request.getPassword().equals(user.getPassword())){
+        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())){
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
         return user;
