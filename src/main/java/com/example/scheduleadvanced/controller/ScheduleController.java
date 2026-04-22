@@ -37,7 +37,7 @@ public class ScheduleController {
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getOne(scheduleId));
     }
 
-    @PutMapping("/schedules/{scheduleId}")
+    @PatchMapping ("/schedules/{scheduleId}")
     public ResponseEntity<UpdateScheduleResponse> updateSchedule(@PathVariable Long scheduleId,@Valid @RequestBody UpdateScheduleRequest request, HttpSession session){
         LoginAuthorizationUtil.isLoginUser(session);
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.update(scheduleId, request));
